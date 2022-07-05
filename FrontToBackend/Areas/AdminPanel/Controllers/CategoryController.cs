@@ -74,6 +74,8 @@ namespace FrontToBackend.Areas.AdminPanel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(Category category)
         {
+
+
             if (!ModelState.IsValid)
             {
                 return View();
@@ -83,12 +85,33 @@ namespace FrontToBackend.Areas.AdminPanel.Controllers
             {
                 return View();
             }
+            Category dbCategoryName = _context.categories.FirstOrDefault(c => c.Name.ToLower() == category.Name.ToLower());
+
+            if (dbCategoryName != null)
+            {
+                if (dbCategory.Name != dbCategoryName.Name)
+                {
+                    ModelState.AddModelError("Name", "Bu adli exist");
+                    return View();
+                }
+            }
+            
             dbCategory.Name = category.Name;
             dbCategory.Desc = category.Desc;
-            
-            
-            return Content("okay");
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null) return NotFound();
+            Category dbCategory = await _context.categories.FindAsync(id);
+            if (dbCategory == null) return NotFound();
+            _context.categories.Remove(dbCategory);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
     }
 }
