@@ -403,3 +403,5 @@ C:\Users\Sahil\Desktop\ASP.NET.FontToBack\ASP.NET__FrontToBack\FrontToBackend\ob
 C:\Users\Sahil\Desktop\ASP.NET.FontToBack\ASP.NET__FrontToBack\FrontToBackend\obj\Debug\netcoreapp3.1\FrontToBackend.dll
 C:\Users\Sahil\Desktop\ASP.NET.FontToBack\ASP.NET__FrontToBack\FrontToBackend\obj\Debug\netcoreapp3.1\FrontToBackend.pdb
 C:\Users\Sahil\Desktop\ASP.NET.FontToBack\ASP.NET__FrontToBack\FrontToBackend\obj\Debug\netcoreapp3.1\FrontToBackend.genruntimeconfig.cache
+C:\Users\Sahil\Desktop\ASP.NET.FontToBack\ASP.NET__FrontToBack\FrontToBackend\obj\Debug\netcoreapp3.1\Razor\Areas\AdminPanel\Views\Shared\_ValidationPartial.cshtml.g.cs
+C:\Users\Sahil\Desktop\ASP.NET.FontToBack\ASP.NET__FrontToBack\FrontToBackend\obj\Debug\netcoreapp3.1\Razor\Areas\AdminPanel\Views\Category\Update.cshtml.g.cs
