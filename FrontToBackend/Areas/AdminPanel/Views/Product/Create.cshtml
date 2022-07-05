@@ -33,9 +33,12 @@
                     </div>
 
                     <label asp-for="Photo"></label>
-                    <select asp-for="CategoryId"  class="form-select" asp-items="@ViewBag.Categories"  placeholder="Category" aria-label="Default select example">
+                    <select asp-for="CategoryId"  class="form-select"   placeholder="Category" aria-label="Default select example">
                         <option selected>Select Category</option>
-                       
+                       @foreach (var item in ViewBag.Categories)
+                       {
+                           <option value="@item.id">@item.Name</option>
+                       }
                     </select>
 
                     <div class="form-group">
