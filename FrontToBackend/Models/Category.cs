@@ -11,5 +11,7 @@ namespace FrontToBackend.Models
         [Required, MaxLength(200)]
         public string Desc{ get; set; }
         public List <Product> products { get; set; }
+
+        public bool IsDelete { get; set; }
     }
 }

@@ -34,11 +34,20 @@
 </div>
 
 @section Scripts{
+    <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
+    <partial name="_ValidationPartial" />
 
-    <partial name="_ValidationPartial"/>
-
-    <script>
-
+   
+        <script>
+            ClassicEditor
+            .create( document.querySelector( '#Desc' ) )
+                                    .then( editor => {
+                console.log(editor);
+                                    } )
+                                    .catch( error => {
+                console.error(error);
+                                    } );
     </script>
+  
 
 }
