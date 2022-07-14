@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static FrontToBackend.Helpers.Helper;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace FrontToBackend.Controllers
@@ -53,6 +54,7 @@ namespace FrontToBackend.Controllers
                 }
             }
             await _signInManager.SignInAsync(user, true);
+            await _userManager.AddToRoleAsync(user, UserRoles.Admin.ToString());
             return RedirectToAction("Index","Home");
         }
 
@@ -66,7 +68,8 @@ namespace FrontToBackend.Controllers
         {
             if (!ModelState.IsValid) return View();
 
-            AppUser appUser=await _userManager.FindByIdAsync(login.Email)
+            AppUser appUser = await _userManager.FindByEmailAsync(login.Email);
+
            if(appUser == null)
             {
                 ModelState.AddModelError("","Email veya password duzgun deyil");
@@ -74,9 +77,35 @@ namespace FrontToBackend.Controllers
             }
 
            SignInResult result= await _signInManager.PasswordSignInAsync(appUser, login.Password, true, true);
-            return View();
-        }
 
+            if (result.IsLockedOut)
+            {
+                ModelState.AddModelError("", "acccount bloklandi");
+                return View(login);
+            }
+
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError("", "email veya password duzgun deyil");
+                return View(login);
+            }
+            return RedirectToAction("index", "home");
+        }
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("login");
+        }
+        public async Task CreateRole()
+        {
+            foreach (var item in Enum.GetValues(typeof(UserRoles)))
+            {
+                if(!await _roleManager.RoleExistsAsync(item.ToString()))
+                {
+                    await _roleManager.CreateAsync(new IdentityRole { Name = item.ToString() });
+                }
+            }
+        }
 
     }
 }
