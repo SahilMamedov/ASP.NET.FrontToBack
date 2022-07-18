@@ -115,7 +115,7 @@ namespace FrontToBackend.Controllers
         {
             foreach (var item in Enum.GetValues(typeof(UserRoles)))
             {
-                if(!await _roleManager.RoleExistsAsync(item.ToString()))
+                if (!await _roleManager.RoleExistsAsync(item.ToString()))
                 {
                     await _roleManager.CreateAsync(new IdentityRole { Name = item.ToString() });
                 }
