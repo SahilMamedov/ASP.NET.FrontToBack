@@ -20,7 +20,7 @@
                         <div class="collapse navbar-collapse d-none d-lg-block" id="navbarSupportedContent">
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Home</a>
+                                    <a class="nav-link" href="#">@ViewBag.User</a>
                                     <ul class="list-unstyled py-3">
                                         <li class=""><a class="px-1" href="">Home 1</a></li>
                                         <li class=""><a class="px-1" href="">Home 2</a></li>
@@ -101,22 +101,26 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">Blog</a>
                                     <ul class="list-unstyled py-3">
-                                        <li class=""><a class="px-1" href="">Blog 1</a></li>
-                                        <li class=""><a class="px-1" href="">Blog 2</a></li>
-                                        <li class="">
-                                            <a class="px-1 mr-5" href="">Blog 3</a>
-                                            <i class="fas fa-chevron-right fa-sm"></i>
-                                            <ul class="list-unstyled py-3">
-                                                <li class=""><a class="px-3" href="">Blog Layouts 1</a></li>
-                                                <li class=""><a class="px-3" href="">Blog Layouts 2</a></li>
-                                                <li class=""><a class="px-3" href="">Blog Layouts 3</a></li>
-                                            </ul>
-                                        </li>
+                                        <li class=""><a class="px-1" asp-controller="account" asp-action="login" asp-route-ReturnUrl="@Context.Request.Path">Login  </a></li>
+                                         <li class=""><a class="px-1" asp-controller="account" asp-action="logout">Logout </a></li>
+                                        
                                     </ul>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">@ViewBag.User</a>
-                                   
+                                    <a class="nav-link" href="#">element</a>
+                                    <ul class="list-unstyled py-3 elements">
+                                        <li class=""><a class="px-1" href="">Element 1</a></li>
+                                        <li class=""><a class="px-1" href="">Element 2</a></li>
+                                        <li class="element">
+                                            <i class="fas fa-chevron-right fa-sm mr-5"></i>
+                                            <a class="px-1" href="">Element 3</a>
+                                            <ul class="list-unstyled py-3">
+                                                <li class=""><a class="px-3" href="">Element 1</a></li>
+                                                <li class=""><a class="px-3" href="">Element 2</a></li>
+                                                <li class=""><a class="px-3" href="">Element 3</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
                                 </li>
                                 <li class="nav-item my-auto search">
                                     <i class="fas fa-search" id="search"></i>

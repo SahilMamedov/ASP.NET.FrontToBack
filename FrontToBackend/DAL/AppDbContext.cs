@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FrontToBackend.DAL
 {
-    public class AppDbContext :IdentityDbContext<AppUser>
+    public class AppDbContext : IdentityDbContext<AppUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {

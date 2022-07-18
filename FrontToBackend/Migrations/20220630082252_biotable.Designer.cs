@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FrontToBackend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220705101434_AddToTable")]
-    partial class AddToTable
+    [Migration("20220630082252_biotable")]
+    partial class biotable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -76,15 +76,8 @@ namespace FrontToBackend.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Desc")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
 

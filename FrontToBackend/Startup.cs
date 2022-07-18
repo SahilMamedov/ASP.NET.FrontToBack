@@ -35,18 +35,20 @@ namespace FrontToBackend
                 option.UseSqlServer(_config.GetConnectionString("DefaultConnection"));
             });
             services.AddIdentity<AppUser, IdentityRole>(opt =>
-             {
-                 opt.Password.RequiredLength = 8;
-                 opt.Password.RequireNonAlphanumeric = true;
-                 opt.Password.RequireLowercase = true;
-                 opt.Password.RequireUppercase = true;
-                 opt.Password.RequireDigit = true;
+            {
+                opt.Password.RequiredLength = 8;
+                opt.Password.RequireNonAlphanumeric = true;
+                opt.Password.RequireLowercase = true;
+                opt.Password.RequireUppercase= true;
+                opt.Password.RequireDigit = true;
 
-                 opt.User.RequireUniqueEmail = true;
-                 opt.Lockout.MaxFailedAccessAttempts = 3;
-                 opt.Lockout.AllowedForNewUsers = true;
-                 opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(20);
-             }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
+                opt.User.RequireUniqueEmail = true;
+                opt.Lockout.MaxFailedAccessAttempts = 3;
+                opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(20);
+                opt.Lockout.AllowedForNewUsers = true;
+
+            }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
         }
 
@@ -62,7 +64,6 @@ namespace FrontToBackend
             app.UseAuthentication();
             app.UseAuthorization();
 
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -71,7 +72,7 @@ namespace FrontToBackend
                     );
                 endpoints.MapControllerRoute(
                     "default",
-                    "{controller=product}/{action=index}"
+                    "{controller=home}/{action=index}"
 
                     );
             });

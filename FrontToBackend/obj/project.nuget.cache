@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "lcfUTsKciAJ/ejj2UiwbHpg3n7oEh1evi0I7hQkIAxCQMGa4ut63NEwcf6TtJSp/76l1kNbDVIv/MJoERdlw0g==",
+  "dgSpecHash": "Hp9hA9bhydww2Kp1yE1nowWNmREbjU7ymwNTLUW/PdVOiSPKyd1iGXdgzoYXsouAI7u4CLsu1Fq4QbO7ghuwCQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Sahil\\Desktop\\ASP.NET.FontToBack\\ASP.NET__FrontToBack\\FrontToBackend\\FrontToBackend.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Sahil\\.nuget\\packages\\awssdk.core\\3.7.12.5\\awssdk.core.3.7.12.5.nupkg.sha512",
+    "C:\\Users\\Sahil\\.nuget\\packages\\awssdk.dynamodbv2\\3.7.3.53\\awssdk.dynamodbv2.3.7.3.53.nupkg.sha512",
     "C:\\Users\\Sahil\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\3.1.0\\microsoft.aspnetcore.cryptography.internal.3.1.0.nupkg.sha512",
     "C:\\Users\\Sahil\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\3.1.0\\microsoft.aspnetcore.cryptography.keyderivation.3.1.0.nupkg.sha512",
     "C:\\Users\\Sahil\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",

@@ -1,37 +1,43 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+﻿using FrontToBackend.DAL;
+using FrontToBackend.Extention;
+using FrontToBackend.Models;
+using FrontToBackend.ViewModels;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using FrontToBackend.DAL;
-using FrontToBackend.Extentions;
-using FrontToBackend.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 namespace FrontToBackend.Areas.AdminPanel.Controllers
 {
     [Area("AdminPanel")]
     public class ProductController : Controller
     {
-
         private readonly AppDbContext _context;
         private readonly IWebHostEnvironment _env;
-
         public ProductController(AppDbContext context, IWebHostEnvironment env)
         {
+
             _context = context;
             _env = env;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int page = 1, int take = 3)
         {
-            return View(_context.Products.Include(p => p.category).ToList());
-        }
+            List<Product> products = _context.Products.Include(p=>p.category).Skip((page - 1) * take).Take(take).ToList();
+            PagintaionVM<Product> pagintaionVM = new PagintaionVM<Product>(products, PageCount(take), page);
 
+            return View(pagintaionVM);
+
+        }
+        private int PageCount(int take)
+        {
+            List<Product> products = _context.Products.ToList();
+            return (int)Math.Ceiling((decimal)(products.Count() / take));
+        }
         public async Task<IActionResult> Detail(int? id)
         {
             if (id == null) return NotFound();
@@ -39,69 +45,64 @@ namespace FrontToBackend.Areas.AdminPanel.Controllers
             if (dbProduct == null) return NotFound();
             return View(dbProduct);
         }
-
-
         public IActionResult Create()
         {
+
             ViewBag.Categories = _context.categories.ToList();
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Product product)
+        public IActionResult Create(Product product)
         {
             ViewBag.Categories = _context.categories.ToList();
             if (product.Photo == null)
             {
-                ModelState.AddModelError("Photo", "Bosh qoymaq olmaz");
+                ModelState.AddModelError("Photo", "Bosh exist");
                 return View();
             }
-
+            if (product.CategoryId == 0)
+            {
+                ModelState.AddModelError("CategoryId", "Category sec");
+                return View();
+            }
             if (!product.Photo.IsImage())
             {
-                ModelState.AddModelError("Photo", "yalniz shekil olar");
+                ModelState.AddModelError("Photo", "only shekil");
                 return View();
             }
-
-            if (product.Photo.ValidSize(500))
+            if (product.Photo.ValidSize(200))
             {
-                ModelState.AddModelError("Photo", "Olcu duzgun deyil");
+                ModelState.AddModelError("Photo", "olcu over size");
                 return View();
             }
-
 
             Product newProduct = new Product
             {
                 Price = product.Price,
                 Name = product.Name,
                 CategoryId = product.CategoryId,
-                imgUrl = product.Photo.SaveImage(_env,"img")
+                imgUrl = product.Photo.SaveImage(_env, "img")
             };
-            await _context.Products.AddAsync(newProduct);
+            _context.Add(newProduct);
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            ViewBag.Categories = _context.categories.ToList();
+            return RedirectToAction("index");
         }
 
-        public async Task<IActionResult> Delete(int? id)
+
+        public IActionResult Delete(int? id)
         {
-            if (id == null) return NotFound();
-            Product dbProduct = await _context.Products.FindAsync(id);
-            if (dbProduct == null) return NotFound();
-
-            string path = Path.Combine(_env.WebRootPath, "img",dbProduct.imgUrl);
-
-            if (System.IO.File.Exists(path))
-            {
-                System.IO.File.Delete(path);
-            }
+            Product dbProduct = _context.Products.FirstOrDefault(c => c.id == id);
+            if (dbProduct == null) return View();
+            string path = Path.Combine(_env.WebRootPath, "img", dbProduct.imgUrl);
+            Helper.Helper.DeleteImage(path);
 
             _context.Products.Remove(dbProduct);
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction("Index");
+            _context.SaveChanges();
+            return RedirectToAction("index");
         }
-
 
 
 
@@ -133,19 +134,23 @@ namespace FrontToBackend.Areas.AdminPanel.Controllers
 
             if (product.Photo == null)
             {
-                ModelState.AddModelError("Photo", "bosh olmaz");
+                ModelState.AddModelError("Photo", "boshdur");
 
                 return View();
             }
-           
-            if (!product.Photo.IsImage())
+            if (product.CategoryId == 0)
             {
-                ModelState.AddModelError("Photo", "yalniz shekil olar");
+                ModelState.AddModelError("CategoryId", "Category sec");
                 return View();
             }
-            if (product.Photo.ValidSize(500))
+            if (!product.Photo.IsImage())
             {
-                ModelState.AddModelError("Photo", "olcunu duzgun verin");
+                ModelState.AddModelError("Photo", "only shekil");
+                return View();
+            }
+            if (product.Photo.ValidSize(200))
+            {
+                ModelState.AddModelError("Photo", "olcu over size");
                 return View();
             }
 
